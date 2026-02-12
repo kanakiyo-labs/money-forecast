@@ -1027,13 +1027,22 @@
                 <p class="text-xs text-indigo-700 font-bold mb-2">
                   ロック解除用の合言葉を設定してください
                 </p>
-                <input
-                  type="text"
-                  id="settingPassword"
-                  placeholder="合言葉 (例: 1234)"
-                  class="w-full bg-white border border-indigo-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                  onchange="updatePassword()"
-                />
+                <div class="relative">
+                  <input
+                    type="password"
+                    id="settingPassword"
+                    placeholder="合言葉 (例: 1234)"
+                    class="w-full bg-white border border-indigo-200 rounded px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    onchange="updatePassword()"
+                  />
+                  <button
+                    type="button"
+                    onclick="togglePasswordVisibility('settingPassword', 'settingEyeIcon')"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 focus:outline-none"
+                  >
+                    <i id="settingEyeIcon" class="fa-solid fa-eye-slash"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1115,12 +1124,21 @@
         </p>
 
         <form onsubmit="unlockApp(event)" class="space-y-4">
-          <input
-            type="password"
-            id="unlockPass"
-            class="w-full text-center bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 text-lg font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-300"
-            placeholder="合言葉"
-          />
+          <div class="relative">
+            <input
+              type="password"
+              id="unlockPass"
+              class="w-full text-center bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 pr-10 text-lg font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-300"
+              placeholder="合言葉"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility('unlockPass', 'unlockEyeIcon')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 focus:outline-none"
+            >
+              <i id="unlockEyeIcon" class="fa-solid fa-eye-slash"></i>
+            </button>
+          </div>
           <button
             type="submit"
             class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition transform active:scale-95"
@@ -1380,6 +1398,20 @@
       function updatePassword() {
         const val = document.getElementById("settingPassword").value;
         appData.settings.lock.password = val;
+      }
+
+      function togglePasswordVisibility(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        } else {
+          input.type = "password";
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        }
       }
 
       // --- Toast Logic ---
@@ -2136,6 +2168,12 @@
       }
 
       function saveSettings() {
+        // 入力途中で保存ボタンを押されても確実にパスワードを取得する
+        if (document.getElementById("lockToggle").checked) {
+          appData.settings.lock.password =
+            document.getElementById("settingPassword").value;
+        }
+
         renderAll();
         document.getElementById("settingsModal").classList.add("hidden");
         showToast("設定を保存しました");
