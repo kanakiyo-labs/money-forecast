@@ -52,7 +52,6 @@
         color: #c2410c !important;
         font-weight: 500;
       }
-      /* Scrollbar for custom legend */
       .custom-scrollbar::-webkit-scrollbar {
         width: 4px;
       }
@@ -75,6 +74,7 @@
       .toggle-checkbox:checked + .toggle-label {
         background-color: #4f46e5;
       }
+
       /* Custom Checkbox */
       .custom-checkbox {
         appearance: none;
@@ -158,6 +158,46 @@
           transform: translateY(-20px);
         }
       }
+
+      /* Yuka AI Chat Styles */
+      .yuka-message {
+        background-color: #f3f4f6;
+        border-radius: 1rem 1rem 1rem 0;
+      }
+      .user-message {
+        background-color: #e0e7ff;
+        border-radius: 1rem 1rem 0 1rem;
+      }
+      .typing-indicator span {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background-color: #9ca3af;
+        border-radius: 50%;
+        animation: typing 1.4s infinite ease-in-out both;
+      }
+      .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      @keyframes typing {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+
+      /* Image Cover Style */
+      .yuka-icon {
+        object-fit: cover;
+        object-position: center;
+      }
     </style>
   </head>
   <body class="text-gray-800 h-screen flex flex-col overflow-hidden">
@@ -168,9 +208,7 @@
       >
         <div class="flex items-center gap-3">
           <!-- App Icon (SVG) -->
-          <div
-            class="w-10 h-10 rounded-xl overflow-hidden shadow-md shrink-0 transition hover:scale-105 duration-300"
-          >
+          <div class="w-10 h-10 rounded-xl overflow-hidden shadow-md shrink-0">
             <svg
               viewBox="0 0 100 100"
               class="w-full h-full"
@@ -194,10 +232,7 @@
                   />
                 </linearGradient>
               </defs>
-              <!-- Background -->
               <rect width="100" height="100" fill="url(#iconGradient)" />
-
-              <!-- Wallet Body -->
               <rect
                 x="20"
                 y="35"
@@ -208,8 +243,6 @@
                 fill-opacity="0.9"
               />
               <path d="M20 45 H80" stroke="#e0e7ff" stroke-width="1" />
-
-              <!-- Flap -->
               <path
                 d="M20 35 Q50 55 80 35"
                 fill="none"
@@ -217,8 +250,6 @@
                 stroke-width="2"
                 stroke-opacity="0.2"
               />
-
-              <!-- Rising Chart -->
               <path
                 d="M30 60 L45 50 L55 55 L75 35"
                 stroke="#10b981"
@@ -228,8 +259,6 @@
                 fill="none"
               />
               <circle cx="75" cy="35" r="3" fill="#10b981" />
-
-              <!-- Coin/Button -->
               <circle
                 cx="50"
                 cy="58"
@@ -240,7 +269,6 @@
               />
             </svg>
           </div>
-
           <div class="flex flex-col justify-center">
             <div class="flex flex-col">
               <h1
@@ -263,7 +291,7 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <!-- DEMO BUTTON (FIXED) -->
+          <!-- DEMO BUTTON -->
           <button
             onclick="loadDemoData()"
             class="text-sm bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3 py-2 rounded-lg transition flex items-center gap-2 border border-emerald-200"
@@ -272,9 +300,7 @@
             <i class="fa-solid fa-magic"></i>
             <span class="hidden sm:inline">デモ</span>
           </button>
-
           <div class="h-8 w-px bg-gray-300 mx-1"></div>
-
           <button
             onclick="toggleSettingsModal()"
             class="text-sm bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-2 rounded-lg transition flex items-center gap-2"
@@ -283,9 +309,7 @@
             <i class="fa-solid fa-gear"></i>
             <span class="hidden sm:inline">設定</span>
           </button>
-
           <div class="h-8 w-px bg-gray-300 mx-1"></div>
-
           <button
             onclick="downloadData()"
             class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition flex items-center gap-2"
@@ -316,7 +340,7 @@
     <!-- Main Content -->
     <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative">
       <div class="max-w-7xl mx-auto space-y-6">
-        <!-- Row 1: Balance & Fixed Budget (2 Columns) -->
+        <!-- Row 1: Balance & Fixed Budget -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- 1. Current Balance -->
           <div
@@ -326,9 +350,7 @@
               <i class="fa-solid fa-wallet text-indigo-500 flex-shrink-0"></i>
               <p class="text-sm text-gray-500 font-bold truncate">現在の残高</p>
             </div>
-
             <div class="flex flex-col gap-3 flex-1 justify-center">
-              <!-- Amount Block -->
               <div
                 class="bg-indigo-50 rounded-xl p-4 border border-indigo-100 flex flex-col items-center justify-center"
               >
@@ -342,8 +364,6 @@
                   ※日々の収支入力で変動します
                 </p>
               </div>
-
-              <!-- Button Block -->
               <button
                 onclick="openBalanceModal()"
                 class="w-full bg-white hover:bg-indigo-50 text-indigo-600 border border-indigo-200 hover:border-indigo-300 font-bold text-xs py-2.5 rounded-lg transition shadow-sm flex items-center justify-center gap-2"
@@ -361,22 +381,18 @@
             <div class="flex items-center justify-between mb-3 gap-2">
               <div class="flex items-center gap-2 min-w-0">
                 <i class="fa-solid fa-rotate text-indigo-500 flex-shrink-0"></i>
-                <p
-                  class="text-sm text-gray-500 font-bold truncate"
-                  title="毎月の固定収支"
-                >
+                <p class="text-sm text-gray-500 font-bold truncate">
                   毎月の固定収支
                 </p>
               </div>
+              <!-- 修正: openSettings('budget') を toggleSettingsModal('budget') に変更 -->
               <button
-                onclick="openSettings('budget')"
+                onclick="toggleSettingsModal('budget')"
                 class="flex-shrink-0 text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg border border-indigo-100 font-bold transition flex items-center gap-1 shadow-sm whitespace-nowrap"
               >
                 <i class="fa-solid fa-pen"></i> 編集
               </button>
             </div>
-
-            <!-- Stats Stack (Vertical List for balanced height) -->
             <div class="flex flex-col gap-3 h-full justify-between pb-1">
               <div
                 class="bg-emerald-50 rounded-lg p-3 flex items-center justify-between border border-emerald-100"
@@ -412,9 +428,9 @@
           </div>
         </div>
 
-        <!-- Row 2: Input & Breakdown (2 Columns) -->
+        <!-- Row 2: Input & Breakdown -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- 3. Input Form (Simple Version) -->
+          <!-- 3. Input Form -->
           <div
             class="bg-blue-50 p-6 rounded-2xl shadow-sm border border-blue-100 animate-fade-in h-full"
             style="animation-delay: 0.2s"
@@ -426,10 +442,10 @@
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span id="formTitle">収支を入力</span>
               </h3>
+              <!-- 修正: openSettings('category') を toggleSettingsModal('category') に変更 -->
               <button
-                onclick="openSettings('category')"
+                onclick="toggleSettingsModal('category')"
                 class="text-xs bg-white hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg border border-blue-200 font-bold transition flex items-center gap-1 shadow-sm whitespace-nowrap"
-                title="カテゴリを編集"
               >
                 <i class="fa-solid fa-pen"></i> 編集
               </button>
@@ -439,7 +455,6 @@
               onsubmit="addTransaction(event)"
               class="space-y-4"
             >
-              <!-- Type Switcher (With Label) -->
               <div>
                 <label class="block text-xs font-bold text-blue-800 mb-1.5 ml-1"
                   >種類を選択</label
@@ -476,8 +491,6 @@
                   </label>
                 </div>
               </div>
-
-              <!-- Date & Category Row -->
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label
@@ -501,13 +514,9 @@
                   <select
                     id="categorySelect"
                     class="w-full bg-white border border-blue-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm cursor-pointer"
-                  >
-                    <!-- Populated JS -->
-                  </select>
+                  ></select>
                 </div>
               </div>
-
-              <!-- Desc & Amount Row -->
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label
@@ -544,8 +553,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Submit Button -->
               <button
                 type="submit"
                 id="submitBtn"
@@ -556,7 +563,7 @@
             </form>
           </div>
 
-          <!-- 4. Monthly Expense Breakdown (Layout Updated) -->
+          <!-- 4. Monthly Expense Breakdown -->
           <div
             class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col animate-fade-in h-full"
             style="animation-delay: 0.3s"
@@ -566,17 +573,11 @@
             >
               <i class="fa-solid fa-chart-pie text-gray-400"></i> 今月の支出内訳
             </h3>
-
-            <!-- 横並びレイアウト: 左(グラフ) / 右(リスト) -->
             <div class="flex flex-row items-center gap-4 flex-1 min-h-[220px]">
-              <!-- 左側：円グラフエリア -->
               <div
                 class="relative w-1/2 h-full flex items-center justify-center"
               >
-                <!-- グラフ本体 -->
                 <canvas id="expensePieChart"></canvas>
-
-                <!-- 中央テキスト (絶対配置) -->
                 <div
                   id="expenseCenterText"
                   class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
@@ -591,8 +592,6 @@
                     >¥0</span
                   >
                 </div>
-
-                <!-- データなしメッセージ -->
                 <div
                   id="noDataMessage"
                   class="absolute inset-0 flex items-center justify-center text-gray-400 text-xs hidden bg-white/60 backdrop-blur-sm"
@@ -600,14 +599,10 @@
                   データなし
                 </div>
               </div>
-
-              <!-- 右側：カテゴリ凡例リスト -->
               <div
                 id="customLegend"
                 class="w-1/2 h-full overflow-y-auto custom-scrollbar pr-1 space-y-2"
-              >
-                <!-- JSでリストを生成 -->
-              </div>
+              ></div>
             </div>
           </div>
         </div>
@@ -677,8 +672,9 @@
                   >
                     月次収支
                   </th>
+                  <!-- 修正: pr-20 (80px) を追加して、スマホ時にAIボタン分の余白を確保 (PC時は sm:pr-4 で戻す) -->
                   <th
-                    class="p-4 font-bold text-gray-500 border-b text-right border-l border-gray-200 whitespace-nowrap"
+                    class="pl-4 py-4 pr-20 sm:pr-4 font-bold text-gray-500 border-b text-right border-l border-gray-200 whitespace-nowrap"
                   >
                     予測残高
                   </th>
@@ -687,9 +683,7 @@
               <tbody
                 id="simulationTableBody"
                 class="divide-y divide-gray-100 bg-white"
-              >
-                <!-- Populated by JS -->
-              </tbody>
+              ></tbody>
             </table>
           </div>
           <div
@@ -728,14 +722,15 @@
                       詳細
                     </th>
                     <th class="px-4 py-3 text-right whitespace-nowrap">金額</th>
-                    <th class="px-4 py-3 text-center whitespace-nowrap">
+                    <!-- 修正: こちらも pr-20 (80px) を追加して余白を確保 -->
+                    <th
+                      class="pl-4 py-3 pr-20 sm:pr-4 text-center whitespace-nowrap"
+                    >
                       操作
                     </th>
                   </tr>
                 </thead>
-                <tbody id="transactionHistoryBody">
-                  <!-- Populated JS -->
-                </tbody>
+                <tbody id="transactionHistoryBody"></tbody>
               </table>
             </div>
           </div>
@@ -743,18 +738,183 @@
       </div>
     </main>
 
+    <!-- Floating AI Button (Responsive) -->
+    <!-- 修正: 画像アイコンから元の「アイコン+テキスト」のデザインに戻す -->
+    <button
+      id="aiFloatingButton"
+      onclick="openYukaModal()"
+      class="fixed bottom-24 right-6 md:bottom-6 lg:right-10 bg-white border border-indigo-200 text-indigo-600 hover:bg-indigo-50 shadow-xl rounded-full w-12 h-12 md:w-auto md:h-auto md:px-4 md:py-3 flex items-center justify-center transition-transform hover:scale-105 z-50 group"
+    >
+      <i
+        class="fa-solid fa-comment-dots text-xl md:text-2xl group-hover:animate-bounce"
+      ></i>
+      <span class="font-bold text-sm ml-2 hidden md:inline">AI相談</span>
+    </button>
+
     <!-- Toast Container -->
     <div id="toast-container"></div>
 
-    <!-- Settings Modal (Tabbed) -->
+    <!-- AI Setup Modal -->
+    <div
+      id="yukaSetupModal"
+      class="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center hidden p-4"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto animate-fade-in relative"
+      >
+        <button
+          onclick="document.getElementById('yukaSetupModal').classList.add('hidden')"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        >
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <div class="p-6">
+          <div class="text-center mb-6">
+            <!-- 変更: アイコンを画像(yuka-icon.jpg)に差し替え -->
+            <div
+              class="w-24 h-24 rounded-full mx-auto mb-3 border-4 border-indigo-100 overflow-hidden"
+            >
+              <img
+                src="yuka-icon.jpg"
+                alt="AI優香"
+                class="w-full h-full object-cover yuka-icon"
+                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yuka&background=random';"
+              />
+            </div>
+            <h2 class="text-xl font-bold text-gray-800">
+              AI相談機能の初期設定
+            </h2>
+          </div>
+          <div
+            class="bg-orange-50 border-l-4 border-orange-400 p-4 mb-6 rounded-r-lg"
+          >
+            <h3 class="text-sm font-bold text-orange-800 mb-2">
+              <i class="fa-solid fa-triangle-exclamation mr-1"></i> ご注意
+            </h3>
+            <ul class="text-xs text-orange-700 space-y-2 list-disc list-inside">
+              <li>この機能はGoogleのGemini APIを利用します。</li>
+              <li>
+                精度の高いアドバイスのため、<strong>現在の家計データ（残高、固定費）がGoogleのサーバーに送信</strong>されます。
+              </li>
+              <li>
+                AIの回答は参考程度とし、最終的な判断はご自身で行ってください。
+              </li>
+              <li class="font-bold text-red-600">
+                機密情報（口座番号、暗証番号、個人名など）は絶対に入力しないでください。
+              </li>
+            </ul>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-1"
+                >あなたのお名前 (任意)</label
+              >
+              <input
+                type="text"
+                id="yukaNicknameInput"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500"
+                placeholder="例: ユーザーさん"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-1"
+                >Gemini APIキー (必須)</label
+              >
+              <input
+                type="password"
+                id="geminiApiKeyInput"
+                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500"
+                placeholder="AIzaSy..."
+              />
+              <p class="text-[10px] text-gray-500 mt-1">
+                ※キーをお持ちでない場合は
+                <a
+                  href="https://aistudio.google.com/app/apikey"
+                  target="_blank"
+                  class="text-indigo-600 underline"
+                  >Google AI Studio</a
+                >
+                から無料で取得できます。
+              </p>
+            </div>
+            <button
+              onclick="saveYukaSetup()"
+              class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition mt-2 shadow-md"
+            >
+              同意してはじめる
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Chat Modal -->
+    <div
+      id="yukaChatModal"
+      class="fixed inset-0 z-50 bg-slate-100 flex flex-col hidden animate-fade-in md:w-[400px] md:h-[600px] md:top-auto md:bottom-24 md:left-auto md:right-10 md:rounded-2xl md:shadow-2xl overflow-hidden"
+    >
+      <div
+        class="bg-white shadow-sm px-4 py-3 flex items-center justify-between z-10 shrink-0"
+      >
+        <div class="flex items-center">
+          <!-- 変更: チャットヘッダーのアイコンを画像に差し替え -->
+          <div class="w-10 h-10 mr-3 relative">
+            <img
+              src="yuka-icon.jpg"
+              alt="AI優香"
+              class="w-full h-full object-cover rounded-full border border-gray-200 yuka-icon"
+              onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yuka&background=random';"
+            />
+            <span
+              class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"
+            ></span>
+          </div>
+          <div>
+            <h2 class="font-bold text-gray-800 text-sm">
+              Yuka (AIアシスタント)
+            </h2>
+            <p class="text-xs text-gray-500" id="yukaStatusText">オンライン</p>
+          </div>
+        </div>
+        <button
+          onclick="closeYukaChat()"
+          class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center"
+        >
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+      <div
+        id="chatMessages"
+        class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50"
+      ></div>
+      <div class="bg-white p-3 border-t border-gray-200 shrink-0">
+        <form onsubmit="sendYukaMessage(event)" class="flex items-center gap-2">
+          <input
+            type="text"
+            id="chatInput"
+            class="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 rounded-full px-4 py-2 text-sm transition"
+            placeholder="メッセージを入力..."
+            autocomplete="off"
+          />
+          <button
+            type="submit"
+            id="chatSubmitBtn"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition flex-shrink-0"
+          >
+            <i class="fa-solid fa-paper-plane text-sm"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
     <div
       id="settingsModal"
       class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
     >
       <div
-        class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col"
+        class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-fade-in"
       >
-        <!-- Header -->
         <div
           class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0"
         >
@@ -766,8 +926,6 @@
             <i class="fa-solid fa-xmark text-xl"></i>
           </button>
         </div>
-
-        <!-- Tabs -->
         <div class="flex border-b border-gray-100 shrink-0 overflow-x-auto">
           <button
             id="tabBtn-budget"
@@ -791,20 +949,15 @@
             データ・設定
           </button>
         </div>
-
-        <!-- Content Area -->
         <div class="flex-1 overflow-y-auto p-6 relative">
-          <!-- Tab: Budget & Income -->
+          <!-- Tab: Budget -->
           <div id="tabContent-budget" class="space-y-8 animate-fade-in">
-            <!-- Note: Simulation adjustment moved to Security tab -->
-
-            <!-- Fixed Income -->
             <div>
               <h4
                 class="font-bold text-emerald-700 mb-3 border-b pb-2 flex justify-between items-center"
               >
-                <span>毎月の収入 (手取り)</span>
-                <span class="text-xs font-normal text-gray-500">月額固定</span>
+                <span>毎月の収入 (手取り)</span
+                ><span class="text-xs font-normal text-gray-500">月額固定</span>
               </h4>
               <div class="grid grid-cols-1 gap-3" id="incomeSettings"></div>
               <button
@@ -814,14 +967,12 @@
                 <i class="fa-solid fa-plus-circle"></i> 収入項目を追加
               </button>
             </div>
-
-            <!-- Fixed Expenses -->
             <div>
               <h4
                 class="font-bold text-rose-700 mb-3 border-b pb-2 flex justify-between items-center"
               >
-                <span>毎月の固定費</span>
-                <span class="text-xs font-normal text-gray-500">月額固定</span>
+                <span>毎月の固定費</span
+                ><span class="text-xs font-normal text-gray-500">月額固定</span>
               </h4>
               <div class="grid grid-cols-1 gap-3" id="expenseSettings"></div>
               <button
@@ -832,17 +983,12 @@
               </button>
             </div>
           </div>
-
-          <!-- Tab: Category Settings -->
+          <!-- Tab: Category -->
           <div id="tabContent-category" class="hidden space-y-8">
-            <!-- Expense Categories -->
             <div>
               <h4 class="font-bold text-rose-700 mb-3 border-b pb-2">
                 支出カテゴリ設定
               </h4>
-              <p class="text-xs text-gray-500 mb-3">
-                日々の支出入力時に選択するカテゴリを編集します。
-              </p>
               <div class="space-y-2" id="expenseCatSettings"></div>
               <div class="flex mt-3 gap-2">
                 <input
@@ -859,15 +1005,10 @@
                 </button>
               </div>
             </div>
-
-            <!-- Income Categories -->
             <div>
               <h4 class="font-bold text-emerald-700 mb-3 border-b pb-2">
                 収入カテゴリ設定
               </h4>
-              <p class="text-xs text-gray-500 mb-3">
-                臨時収入入力時に選択するカテゴリを編集します。
-              </p>
               <div class="space-y-2" id="incomeCatSettings"></div>
               <div class="flex mt-3 gap-2">
                 <input
@@ -885,25 +1026,51 @@
               </div>
             </div>
           </div>
-
-          <!-- Tab: Data & Security (Sim Adjustment Moved Here) -->
+          <!-- Tab: Security & Data -->
           <div id="tabContent-security" class="hidden space-y-6">
-            <!-- Simulation Start Adjustment (Moved from Budget Tab) -->
+            <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+              <h4
+                class="font-bold text-purple-900 mb-3 flex items-center gap-2"
+              >
+                <i class="fa-solid fa-robot"></i> AIアシスタント設定
+              </h4>
+              <div class="flex items-center justify-between">
+                <div>
+                  <label
+                    for="aiToggle"
+                    class="text-sm font-bold text-gray-700 cursor-pointer"
+                    >画面右下の相談ボタンを表示</label
+                  >
+                  <p class="text-[10px] text-gray-500">
+                    オフにするとボタンが非表示になります
+                  </p>
+                </div>
+                <div
+                  class="relative inline-block w-12 mr-2 align-middle transition duration-200 ease-in"
+                >
+                  <input
+                    type="checkbox"
+                    id="aiToggle"
+                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 transition-all duration-300 left-0 checked:right-0 checked:border-indigo-600"
+                    onchange="toggleAiSetting()"
+                  />
+                  <label
+                    for="aiToggle"
+                    class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+                  ></label>
+                </div>
+              </div>
+            </div>
             <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
               <h4
                 class="font-bold text-yellow-800 mb-2 flex items-center gap-2"
               >
                 <i class="fa-solid fa-sliders"></i> シミュレーション設定
               </h4>
-
-              <!-- Start Config -->
               <div class="mb-4">
                 <label class="block text-xs font-bold text-yellow-800 mb-1.5"
                   >開始月の調整</label
                 >
-                <p class="text-xs text-yellow-700 mb-2 leading-relaxed">
-                  「残高入力」の時点で、今月分の給料受取や固定費支払いが済んでいる場合は、二重計上を防ぐためにチェックを外してください。
-                </p>
                 <div class="flex flex-col gap-2">
                   <label
                     class="flex items-center gap-3 cursor-pointer p-2 hover:bg-yellow-100 rounded transition"
@@ -933,8 +1100,6 @@
                   </label>
                 </div>
               </div>
-
-              <!-- Duration Config (NEW) -->
               <div class="border-t border-yellow-200 pt-3">
                 <label
                   for="simMonths"
@@ -951,8 +1116,6 @@
                 </select>
               </div>
             </div>
-
-            <!-- Data Settings -->
             <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
               <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
                 <i class="fa-solid fa-database"></i> データ保存設定
@@ -961,19 +1124,15 @@
                 <div>
                   <label
                     for="autoSaveToggle"
-                    class="text-sm font-bold text-gray-700 cursor-pointer select-none"
+                    class="text-sm font-bold text-gray-700 cursor-pointer"
                     >ブラウザへの自動保存</label
                   >
-                  <p class="text-xs text-gray-500 mt-1">
-                    ONにすると次回から自動で復元されます。<br />共有PCではOFF（推奨）にしてください。
-                  </p>
                 </div>
                 <div
-                  class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in"
+                  class="relative inline-block w-12 mr-2 align-middle transition duration-200 ease-in"
                 >
                   <input
                     type="checkbox"
-                    name="autoSaveToggle"
                     id="autoSaveToggle"
                     class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 transition-all duration-300 left-0 checked:right-0 checked:border-indigo-600"
                     onchange="toggleAutoSave()"
@@ -985,8 +1144,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Security Settings -->
             <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
               <h4
                 class="font-bold text-indigo-900 mb-3 flex items-center gap-2"
@@ -997,19 +1154,15 @@
                 <div>
                   <label
                     for="lockToggle"
-                    class="text-sm font-bold text-gray-700 cursor-pointer select-none"
+                    class="text-sm font-bold text-gray-700 cursor-pointer"
                     >起動時のパスワードロック</label
                   >
-                  <p class="text-xs text-gray-500 mt-1">
-                    アプリを開く際に合言葉を要求します。
-                  </p>
                 </div>
                 <div
-                  class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in"
+                  class="relative inline-block w-12 mr-2 align-middle transition duration-200 ease-in"
                 >
                   <input
                     type="checkbox"
-                    name="toggle"
                     id="lockToggle"
                     class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 transition-all duration-300 left-0 checked:right-0 checked:border-indigo-600"
                     onchange="toggleLockSetting()"
@@ -1045,10 +1198,22 @@
                 </div>
               </div>
             </div>
+            <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+              <h4 class="font-bold text-red-900 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation"></i> 危険な操作
+              </h4>
+              <button
+                onclick="resetAllData()"
+                class="w-full bg-red-100 hover:bg-red-200 text-red-700 font-bold py-2.5 rounded-lg text-sm transition border border-red-200 flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-trash-can"></i> 全てのデータを初期化する
+              </button>
+              <p class="text-xs text-red-500 mt-2 text-center">
+                ※この操作は元に戻せません。不具合時のみ使用してください。
+              </p>
+            </div>
           </div>
         </div>
-
-        <!-- Footer -->
         <div
           class="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3 shrink-0"
         >
@@ -1103,7 +1268,7 @@
       </div>
     </div>
 
-    <!-- Lock Screen Overlay -->
+    <!-- Lock Screen -->
     <div
       id="lockScreen"
       class="fixed inset-0 bg-slate-900 z-[100] hidden flex flex-col items-center justify-center text-white p-4"
@@ -1122,7 +1287,6 @@
         <p class="text-sm text-gray-500 mb-6">
           設定された合言葉を入力して<br />ロックを解除してください。
         </p>
-
         <form onsubmit="unlockApp(event)" class="space-y-4">
           <div class="relative">
             <input
@@ -1149,22 +1313,29 @@
         <p id="lockError" class="text-red-500 text-xs font-bold mt-3 hidden">
           <i class="fa-solid fa-circle-exclamation"></i> 合言葉が違います
         </p>
+        <div class="mt-6 pt-4 border-t border-gray-100">
+          <button
+            type="button"
+            onclick="forgotPassword()"
+            class="text-xs text-gray-400 hover:text-red-500 transition underline decoration-gray-300 hover:decoration-red-500"
+          >
+            パスワードを忘れた場合
+          </button>
+        </div>
       </div>
     </div>
 
     <script>
-      // --- Auto-Save Configuration ---
       const STORAGE_KEY = "kakeibo_future_data_v2";
 
-      // --- State ---
       let appData = {
         initialBalance: 0,
         initialDate: new Date().toISOString().slice(0, 7),
         transactions: [],
         settings: {
           autoSave: false,
+          showAiButton: true, // Default to true
           lock: { enabled: false, password: "" },
-          // UPDATE: Added months (default 12)
           simulation: {
             includeCurrentMonthIncome: true,
             includeCurrentMonthExpense: true,
@@ -1172,7 +1343,6 @@
           },
           incomes: [{ id: 1, name: "", amount: 0 }],
           expenses: [{ id: 1, name: "", amount: 0 }],
-          // NEW: Categories
           expenseCategories: [
             "食費",
             "日用品",
@@ -1189,11 +1359,8 @@
       let simulationChart = null;
       let expensePieChart = null;
 
-      // --- Init ---
       window.onload = function () {
         loadFromLocal();
-
-        // Check Lock
         if (
           appData.settings.lock &&
           appData.settings.lock.enabled &&
@@ -1204,16 +1371,11 @@
         } else {
           renderAll();
         }
-
         document.getElementById("date").valueAsDate = new Date();
-        toggleFormType(); // Initialize category selector
+        toggleFormType();
       };
 
-      // --- Demo Data Logic ---
       function loadDemoData() {
-        // REMOVED: confirm() dialog to avoid blocking in preview environment
-        // if (!confirm('現在のデータを上書きして、デモデータを読み込みますか？\n※未保存のデータは消えます。')) return;
-
         const today = new Date();
         const y = today.getFullYear();
         const m = today.getMonth() + 1;
@@ -1222,7 +1384,6 @@
           d
         ).padStart(2, "0")}`;
 
-        // デモデータ
         appData = {
           initialBalance: 300000,
           initialDate: dateStr.slice(0, 7),
@@ -1251,11 +1412,10 @@
               amount: 12500,
               type: "income",
             },
-            // グラフに動きを出すため、少し前の日付のデータも入れるとベターだが、
-            // シンプルに「今月のデータ」として入れておく。
           ],
           settings: {
             autoSave: false,
+            showAiButton: true,
             lock: { enabled: false, password: "" },
             simulation: {
               includeCurrentMonthIncome: true,
@@ -1272,7 +1432,6 @@
               { id: 203, name: "つみたてNISA", amount: 33000 },
               { id: 204, name: "サブスク", amount: 3500 },
             ],
-            // カテゴリ設定も初期値に戻す
             expenseCategories: [
               "食費",
               "日用品",
@@ -1285,12 +1444,10 @@
             incomeCategories: ["臨時収入", "副業", "投資配当", "その他"],
           },
         };
-
         renderAll();
         showToast("デモデータを読み込みました");
       }
 
-      // --- Storage Logic ---
       function saveToLocal() {
         if (appData.settings.autoSave) {
           try {
@@ -1312,24 +1469,23 @@
         if (saved) {
           try {
             const parsed = JSON.parse(saved);
-            // Merge recursively to ensure new settings (categories, simulation months) exist
             appData = {
               ...appData,
               ...parsed,
               settings: {
                 ...appData.settings,
                 ...(parsed.settings || {}),
+                showAiButton: parsed.settings?.showAiButton ?? true, // Load AI button setting
                 simulation: {
                   includeCurrentMonthIncome: true,
                   includeCurrentMonthExpense: true,
-                  months: 12, // default fallback
+                  months: 12,
                   ...(parsed.settings?.simulation || {}),
                 },
                 lock: {
                   ...appData.settings.lock,
                   ...(parsed.settings?.lock || {}),
                 },
-                // Fallback for old data without categories
                 expenseCategories:
                   parsed.settings?.expenseCategories ||
                   appData.settings.expenseCategories,
@@ -1345,30 +1501,43 @@
       }
 
       function toggleAutoSave() {
-        const isChecked = document.getElementById("autoSaveToggle").checked;
-        appData.settings.autoSave = isChecked;
-        if (isChecked) {
-          saveToLocal();
-          showToast("自動保存を有効にしました");
+        appData.settings.autoSave =
+          document.getElementById("autoSaveToggle").checked;
+        saveToLocal();
+        showToast(
+          appData.settings.autoSave
+            ? "自動保存を有効にしました"
+            : "自動保存を解除しました"
+        );
+      }
+
+      function toggleAiSetting() {
+        appData.settings.showAiButton =
+          document.getElementById("aiToggle").checked;
+        renderAiButton();
+        saveToLocal();
+      }
+
+      function renderAiButton() {
+        const btn = document.getElementById("aiFloatingButton");
+        if (appData.settings.showAiButton) {
+          btn.classList.remove("hidden");
         } else {
-          saveToLocal();
-          showToast("自動保存を解除しました（ブラウザからデータを削除）");
+          btn.classList.add("hidden");
         }
       }
 
-      // --- Simulation Config Logic ---
       function updateSimulationConfig() {
         appData.settings.simulation = {
           includeCurrentMonthIncome:
             document.getElementById("simIncludeIncome").checked,
           includeCurrentMonthExpense:
             document.getElementById("simIncludeExpense").checked,
-          months: parseInt(document.getElementById("simMonths").value) || 12, // Get months
+          months: parseInt(document.getElementById("simMonths").value) || 12,
         };
-        renderAll(); // 即時反映してわかりやすくする
+        renderAll();
       }
 
-      // --- Lock Logic ---
       function unlockApp(e) {
         e.preventDefault();
         const input = document.getElementById("unlockPass").value;
@@ -1386,18 +1555,13 @@
       function toggleLockSetting() {
         const isChecked = document.getElementById("lockToggle").checked;
         const inputArea = document.getElementById("passwordInputArea");
-        if (isChecked) {
-          inputArea.classList.remove("hidden");
-          appData.settings.lock.enabled = true;
-        } else {
-          inputArea.classList.add("hidden");
-          appData.settings.lock.enabled = false;
-        }
+        inputArea.classList.toggle("hidden", !isChecked);
+        appData.settings.lock.enabled = isChecked;
       }
 
       function updatePassword() {
-        const val = document.getElementById("settingPassword").value;
-        appData.settings.lock.password = val;
+        appData.settings.lock.password =
+          document.getElementById("settingPassword").value;
       }
 
       function togglePasswordVisibility(inputId, iconId) {
@@ -1405,25 +1569,22 @@
         const icon = document.getElementById(iconId);
         if (input.type === "password") {
           input.type = "text";
-          icon.classList.remove("fa-eye-slash");
-          icon.classList.add("fa-eye");
+          icon.classList.replace("fa-eye-slash", "fa-eye");
         } else {
           input.type = "password";
-          icon.classList.remove("fa-eye");
-          icon.classList.add("fa-eye-slash");
+          icon.classList.replace("fa-eye", "fa-eye-slash");
         }
       }
 
-      // --- Toast Logic ---
       function showToast(message, type = "success") {
         const container = document.getElementById("toast-container");
         const toast = document.createElement("div");
         toast.className = `toast ${type}`;
-        const icon =
+        toast.innerHTML = `${
           type === "success"
             ? '<i class="fa-solid fa-circle-check"></i>'
-            : '<i class="fa-solid fa-circle-exclamation"></i>';
-        toast.innerHTML = `${icon} <span>${message}</span>`;
+            : '<i class="fa-solid fa-circle-exclamation"></i>'
+        } <span>${message}</span>`;
         container.appendChild(toast);
         setTimeout(() => {
           toast.style.animation = "fadeOut 0.3s ease-in forwards";
@@ -1431,19 +1592,17 @@
         }, 3000);
       }
 
-      // --- Core Logic ---
       function calculateCurrentBalance() {
         let balance = appData.initialBalance;
-        appData.transactions.forEach((t) => {
-          if (t.type === "income") balance += t.amount;
-          else balance -= t.amount;
-        });
+        appData.transactions.forEach(
+          (t) => (balance += t.type === "income" ? t.amount : -t.amount)
+        );
         return balance;
       }
 
       function openBalanceModal() {
-        const currentDisplay = calculateCurrentBalance();
-        document.getElementById("balanceInput").value = currentDisplay;
+        document.getElementById("balanceInput").value =
+          calculateCurrentBalance();
         document.getElementById("balanceModal").classList.remove("hidden");
         setTimeout(() => document.getElementById("balanceInput").focus(), 100);
       }
@@ -1454,13 +1613,11 @@
           showToast("金額を数値で入力してください", "error");
           return;
         }
-        const targetBalance = parseInt(inputVal);
-        let totalTransactionFlow = 0;
-        appData.transactions.forEach((t) => {
-          if (t.type === "income") totalTransactionFlow += t.amount;
-          else totalTransactionFlow -= t.amount;
-        });
-        appData.initialBalance = targetBalance - totalTransactionFlow;
+        let flow = 0;
+        appData.transactions.forEach(
+          (t) => (flow += t.type === "income" ? t.amount : -t.amount)
+        );
+        appData.initialBalance = parseInt(inputVal) - flow;
         renderAll();
         document.getElementById("balanceModal").classList.add("hidden");
         showToast("残高を修正しました");
@@ -1479,8 +1636,8 @@
       }
 
       function getSpotFlow(year, month) {
-        let income = 0;
-        let expense = 0;
+        let income = 0,
+          expense = 0;
         appData.transactions.forEach((t) => {
           const d = new Date(t.date);
           if (d.getFullYear() === year && d.getMonth() + 1 === month) {
@@ -1495,210 +1652,159 @@
         let balance = appData.initialBalance;
         appData.transactions.forEach((t) => {
           const d = new Date(t.date);
-          const tYear = d.getFullYear();
-          const tMonth = d.getMonth() + 1;
           if (
-            tYear < startYear ||
-            (tYear === startYear && tMonth < startMonth)
+            d.getFullYear() < startYear ||
+            (d.getFullYear() === startYear && d.getMonth() + 1 < startMonth)
           ) {
-            if (t.type === "income") balance += t.amount;
-            else balance -= t.amount;
+            balance += t.type === "income" ? t.amount : -t.amount;
           }
         });
         return balance;
       }
 
       function runSimulation() {
-        // UPDATE: Use settings, default to 12 if not set
         const months = appData.settings.simulation.months || 12;
         const fixedFlow = getMonthlyFixedFlow();
         const today = new Date();
-        let year = today.getFullYear();
-        let month = today.getMonth() + 1;
+        let year = today.getFullYear(),
+          month = today.getMonth() + 1;
         let currentBal = calculateBalanceBefore(year, month);
-        const simulationData = [];
+        const data = [];
 
         for (let i = 0; i < months; i++) {
           const spot = getSpotFlow(year, month);
-
-          let monthlyIncome = fixedFlow.totalIncome;
-          let monthlyExpense = fixedFlow.totalExpense;
-
+          let mInc = fixedFlow.totalIncome,
+            mExp = fixedFlow.totalExpense;
           if (i === 0) {
             if (!appData.settings.simulation.includeCurrentMonthIncome)
-              monthlyIncome = 0;
+              mInc = 0;
             if (!appData.settings.simulation.includeCurrentMonthExpense)
-              monthlyExpense = 0;
+              mExp = 0;
           }
-
-          const totalIncome = monthlyIncome + spot.income;
-          const totalExpense = monthlyExpense + spot.expense;
-          const totalNet = totalIncome - totalExpense;
-
-          const startBalance = currentBal;
-          currentBal = currentBal + totalNet;
-
-          simulationData.push({
-            year: year,
-            month: month,
+          const tInc = mInc + spot.income,
+            tExp = mExp + spot.expense;
+          data.push({
+            year,
+            month,
             label: `${year}年${month}月`,
-            startBalance: startBalance,
-            income: totalIncome,
-            expense: totalExpense,
-            net: totalNet,
-            endBalance: currentBal,
+            startBalance: currentBal,
+            income: tInc,
+            expense: tExp,
+            net: tInc - tExp,
+            endBalance: currentBal + (tInc - tExp),
           });
-          month++;
-          if (month > 12) {
+          currentBal += tInc - tExp;
+          if (++month > 12) {
             month = 1;
             year++;
           }
         }
-        return simulationData;
+        return data;
       }
 
-      // --- Rendering ---
       function renderAll() {
-        const currentBalance = calculateCurrentBalance();
-        const fixedFlow = getMonthlyFixedFlow();
-        const simulation = runSimulation();
+        const bal = calculateCurrentBalance(),
+          fixed = getMonthlyFixedFlow(),
+          sim = runSimulation();
 
         document.getElementById(
           "displayBalance"
-        ).textContent = `¥${currentBalance.toLocaleString()}`;
+        ).textContent = `¥${bal.toLocaleString()}`;
         document.getElementById(
           "displayBalance"
         ).className = `text-4xl font-bold tracking-tight ${
-          currentBalance < 0 ? "text-red-600" : "text-gray-900"
+          bal < 0 ? "text-red-600" : "text-gray-900"
         }`;
-
         document.getElementById(
           "displayFixedIncome"
-        ).textContent = `+¥${fixedFlow.totalIncome.toLocaleString()}`;
+        ).textContent = `+¥${fixed.totalIncome.toLocaleString()}`;
         document.getElementById(
           "displayFixedExpense"
-        ).textContent = `-¥${fixedFlow.totalExpense.toLocaleString()}`;
-        const netSign = fixedFlow.net >= 0 ? "+" : "";
-        document.getElementById(
-          "displayMonthlyNet"
-        ).textContent = `${netSign}¥${fixedFlow.net.toLocaleString()}`;
+        ).textContent = `-¥${fixed.totalExpense.toLocaleString()}`;
+        document.getElementById("displayMonthlyNet").textContent = `${
+          fixed.net >= 0 ? "+" : ""
+        }¥${fixed.net.toLocaleString()}`;
         document.getElementById("displayMonthlyNet").className = `font-bold ${
-          fixedFlow.net >= 0 ? "text-emerald-600" : "text-rose-600"
+          fixed.net >= 0 ? "text-emerald-600" : "text-rose-600"
         }`;
 
         const statusEl = document.getElementById("simulationStatus");
-        const firstNegative = simulation.find((d) => d.endBalance < 0);
-        if (firstNegative) {
+        const firstNeg = sim.find((d) => d.endBalance < 0);
+        if (firstNeg) {
           statusEl.className =
             "text-sm px-4 py-1.5 rounded-full bg-orange-50 text-orange-700 font-medium border border-orange-100 flex items-center gap-2";
-          statusEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${firstNegative.year}年${firstNegative.month}月頃に残高の調整が必要になる予測です</span>`;
+          statusEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${firstNeg.year}年${firstNeg.month}月頃に残高見直しが必要です</span>`;
         } else {
-          const years = simulation.length >= 24 ? "2年間" : "1年間";
           statusEl.className =
             "text-sm px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-medium border border-emerald-100 flex items-center gap-2";
-          statusEl.innerHTML = `<i class="fa-solid fa-check"></i> <span>向こう${years}は黒字が続く見込みです</span>`;
+          statusEl.innerHTML = `<i class="fa-solid fa-check"></i> <span>向こう${
+            sim.length >= 24 ? "2年間" : "1年間"
+          }は黒字見込みです</span>`;
         }
 
-        renderSimulationTable(simulation);
-        renderSimulationChart(simulation);
-        renderPieChart(); // New
+        renderSimulationTable(sim);
+        renderSimulationChart(sim);
+        renderPieChart();
         renderHistory();
+        renderAiButton();
         saveToLocal();
       }
 
       function renderSimulationTable(fullData) {
-        const tbody = document.getElementById("simulationTableBody");
+        const tbody = document.getElementById("simulationTableBody"),
+          footer = document.getElementById("simulationTableFooter");
         tbody.innerHTML = "";
-        const footer = document.getElementById("simulationTableFooter");
-        footer.innerHTML = ""; // Clear footer
+        footer.innerHTML = "";
+        const VISIBLE = 6;
+        let highlighted = false,
+          hiddenShortage = null;
 
-        // Show all data, limited by simulation months (handled in runSimulation)
-        const data = fullData;
-        const DEFAULT_VISIBLE_COUNT = 6;
-        let hiddenShortageInfo = null;
-        let shortageHighlighted = false;
+        if (!fullData.slice(0, VISIBLE).some((d) => d.endBalance < 0))
+          hiddenShortage = fullData
+            .slice(VISIBLE)
+            .find((d) => d.endBalance < 0);
 
-        let visibleShortageExists = false;
-        for (let i = 0; i < Math.min(data.length, DEFAULT_VISIBLE_COUNT); i++) {
-          if (data[i].endBalance < 0) {
-            visibleShortageExists = true;
-            break;
-          }
-        }
-
-        if (!visibleShortageExists) {
-          for (let i = DEFAULT_VISIBLE_COUNT; i < data.length; i++) {
-            if (data[i].endBalance < 0) {
-              hiddenShortageInfo = data[i];
-              break;
-            }
-          }
-        }
-
-        data.forEach((row, index) => {
+        fullData.forEach((row, idx) => {
           const tr = document.createElement("tr");
-          let isTargetShortage = false;
-          if (row.endBalance < 0 && !shortageHighlighted) {
-            isTargetShortage = true;
-            shortageHighlighted = true;
+          let isDanger = false;
+          if (row.endBalance < 0 && !highlighted) {
+            isDanger = true;
+            highlighted = true;
           }
 
-          if (index < DEFAULT_VISIBLE_COUNT) {
-            if (isTargetShortage)
-              tr.className = "row-danger border-b border-red-200";
-            else
-              tr.className =
-                "border-b border-gray-100 hover:bg-gray-50 transition";
-          } else {
-            tr.className =
-              "border-b border-gray-100 hover:bg-gray-50 transition hidden future-row";
-            if (isTargetShortage) {
-              tr.classList.add("row-danger", "border-red-200");
-              tr.classList.remove("hover:bg-gray-50");
-            }
-          }
+          tr.className =
+            idx < VISIBLE
+              ? isDanger
+                ? "row-danger border-b border-red-200"
+                : "border-b border-gray-100 hover:bg-gray-50 transition"
+              : `border-b border-gray-100 hover:bg-gray-50 transition hidden future-row ${
+                  isDanger ? "row-danger border-red-200" : ""
+                }`;
 
-          // 修正: Sticky設定
+          // 修正: 最後のtd (予測残高) に pl-4 py-4 pr-20 sm:pr-4 を適用
           tr.innerHTML = `
-                    <td class="p-4 whitespace-nowrap font-medium sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] border-b border-gray-100">${
-                      row.year
-                    }年${row.month}月</td>
-                    <td class="p-4 text-right text-gray-600 whitespace-nowrap">¥${row.startBalance.toLocaleString()}</td>
-                    <td class="p-4 text-right text-emerald-600 text-xs sm:text-sm whitespace-nowrap">+¥${row.income.toLocaleString()}</td>
-                    <td class="p-4 text-right text-rose-600 text-xs sm:text-sm whitespace-nowrap">-¥${row.expense.toLocaleString()}</td>
-                    <td class="p-4 text-right font-medium ${
-                      row.net >= 0 ? "text-emerald-600" : "text-rose-600"
-                    } whitespace-nowrap">
-                        ${row.net >= 0 ? "+" : ""}¥${row.net.toLocaleString()}
-                    </td>
-                    <td class="p-4 text-right border-l border-gray-200 font-bold text-base whitespace-nowrap">
-                        ¥${row.endBalance.toLocaleString()}
-                    </td>
-                `;
+            <td class="p-4 whitespace-nowrap font-medium sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] border-b border-gray-100">${
+              row.year
+            }年${row.month}月</td>
+            <td class="p-4 text-right text-gray-600 whitespace-nowrap">¥${row.startBalance.toLocaleString()}</td>
+            <td class="p-4 text-right text-emerald-600 text-xs sm:text-sm whitespace-nowrap">+¥${row.income.toLocaleString()}</td>
+            <td class="p-4 text-right text-rose-600 text-xs sm:text-sm whitespace-nowrap">-¥${row.expense.toLocaleString()}</td>
+            <td class="p-4 text-right font-medium ${
+              row.net >= 0 ? "text-emerald-600" : "text-rose-600"
+            } whitespace-nowrap">${
+            row.net >= 0 ? "+" : ""
+          }¥${row.net.toLocaleString()}</td>
+            <td class="pl-4 py-4 pr-20 sm:pr-4 text-right border-l border-gray-200 font-bold text-base whitespace-nowrap">¥${row.endBalance.toLocaleString()}</td>
+          `;
           tbody.appendChild(tr);
         });
 
-        // 修正: ボタンをフッターに配置
-        if (data.length > DEFAULT_VISIBLE_COUNT) {
-          const remaining = data.length - DEFAULT_VISIBLE_COUNT;
-          let buttonHtml = "";
-
-          if (hiddenShortageInfo) {
-            buttonHtml = `
-                        <button id="toggleBtn" onclick="toggleFutureRows()" class="bg-orange-50 text-orange-700 hover:bg-orange-100 border border-orange-200 font-bold text-sm flex items-center justify-center gap-2 w-full py-3 rounded-lg transition">
-                            <i class="fa-solid fa-circle-exclamation"></i> 
-                            <span>${hiddenShortageInfo.year}年${hiddenShortageInfo.month}月に残高の見直しが必要な可能性があります (すべて表示)</span>
-                        </button>
-                    `;
-          } else {
-            buttonHtml = `
-                        <button id="toggleBtn" onclick="toggleFutureRows()" class="text-indigo-600 hover:text-indigo-800 font-bold text-sm flex items-center justify-center gap-2 w-full py-2 hover:bg-indigo-50 rounded transition">
-                            <i class="fa-solid fa-chevron-down"></i> さらに${remaining}ヶ月分を表示 (全期間)
-                        </button>
-                    `;
-          }
-
-          footer.innerHTML = buttonHtml;
+        if (fullData.length > VISIBLE) {
+          footer.innerHTML = hiddenShortage
+            ? `<button id="toggleBtn" onclick="toggleFutureRows()" class="bg-orange-50 text-orange-700 hover:bg-orange-100 border border-orange-200 font-bold text-sm flex items-center justify-center gap-2 w-full py-3 rounded-lg transition"><i class="fa-solid fa-circle-exclamation"></i> <span>${hiddenShortage.year}年${hiddenShortage.month}月に残高見直しが必要です (すべて表示)</span></button>`
+            : `<button id="toggleBtn" onclick="toggleFutureRows()" class="text-indigo-600 hover:text-indigo-800 font-bold text-sm flex items-center justify-center gap-2 w-full py-2 hover:bg-indigo-50 rounded transition"><i class="fa-solid fa-chevron-down"></i> さらに${
+                fullData.length - VISIBLE
+              }ヶ月分を表示</button>`;
           footer.classList.remove("hidden");
         } else {
           footer.classList.add("hidden");
@@ -1706,15 +1812,13 @@
       }
 
       function toggleFutureRows() {
-        const rows = document.querySelectorAll(".future-row");
-        const btn = document.getElementById("toggleBtn");
+        const rows = document.querySelectorAll(".future-row"),
+          btn = document.getElementById("toggleBtn");
         if (rows.length === 0) return;
-        const isHidden = rows[0].classList.contains("hidden");
-        if (isHidden) {
-          rows.forEach((el) => {
-            el.classList.remove("hidden");
-            el.classList.add("animate-fade-in");
-          });
+        if (rows[0].classList.contains("hidden")) {
+          rows.forEach((el) =>
+            el.classList.remove("hidden", "animate-fade-in")
+          );
           btn.className =
             "text-gray-500 hover:text-gray-700 font-bold text-sm flex items-center justify-center gap-2 w-full py-2 hover:bg-gray-100 rounded transition";
           btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> 閉じる`;
@@ -1725,43 +1829,29 @@
 
       function renderSimulationChart(data) {
         const ctx = document.getElementById("simulationChart").getContext("2d");
-        const container = document.getElementById("simulationChartContainer");
-
-        // スマホ判定 (640px未満)
         const isMobile = window.innerWidth < 640;
-        const indexAxis = isMobile ? "y" : "x"; // スマホなら横棒グラフ(y)、PCなら縦棒グラフ(x)
-
-        // スマホの場合は高さをデータ量に応じて伸ばす
-        if (isMobile) {
-          // データ数 * 40px + マージン
-          container.style.height = `${Math.max(300, data.length * 40 + 50)}px`;
-        } else {
-          // PCは固定またはTailwindクラスに従う(h-64 = 256px)
-          container.style.height = "256px";
-        }
-
-        const labels = data.map((d) => `${d.year}/${d.month}`);
-        const balances = data.map((d) => d.endBalance);
-        const bgColors = balances.map((b) => (b < 0 ? "#ef4444" : "#4f46e5"));
+        document.getElementById("simulationChartContainer").style.height =
+          isMobile ? `${Math.max(300, data.length * 40 + 50)}px` : "256px";
 
         if (simulationChart) simulationChart.destroy();
-
         simulationChart = new Chart(ctx, {
           type: "bar",
           data: {
-            labels: labels,
+            labels: data.map((d) => `${d.year}/${d.month}`),
             datasets: [
               {
                 label: "予測残高",
-                data: balances,
-                backgroundColor: bgColors,
+                data: data.map((d) => d.endBalance),
+                backgroundColor: data.map((d) =>
+                  d.endBalance < 0 ? "#ef4444" : "#4f46e5"
+                ),
                 borderRadius: 4,
                 barPercentage: 0.6,
               },
             ],
           },
           options: {
-            indexAxis: indexAxis, // 軸の切り替え
+            indexAxis: isMobile ? "y" : "x",
             responsive: true,
             maintainAspectRatio: false,
             scales: {
@@ -1773,227 +1863,158 @@
         });
       }
 
-      // ... (Pie Chart, History, Form, Settings Logic remains same) ...
-
       function renderPieChart() {
         const ctx = document.getElementById("expensePieChart").getContext("2d");
-        const centerTextEl = document.getElementById("expenseCenterText");
-        const totalAmountEl = document.getElementById("expenseTotalAmount");
-        const noDataEl = document.getElementById("noDataMessage");
-        const legendContainer = document.getElementById("customLegend");
-
-        const today = new Date();
-        const currentMonth = today.getMonth() + 1;
-        const currentYear = today.getFullYear();
-
+        const legend = document.getElementById("customLegend");
         const totals = {};
-        let hasData = false;
         let grandTotal = 0;
 
+        const now = new Date();
         appData.transactions.forEach((t) => {
-          const tDate = new Date(t.date);
+          const d = new Date(t.date);
           if (
             t.type === "expense" &&
-            tDate.getMonth() + 1 === currentMonth &&
-            tDate.getFullYear() === currentYear
+            d.getMonth() === now.getMonth() &&
+            d.getFullYear() === now.getFullYear()
           ) {
-            if (!totals[t.category]) totals[t.category] = 0;
-            totals[t.category] += t.amount;
+            totals[t.category] = (totals[t.category] || 0) + t.amount;
             grandTotal += t.amount;
-            hasData = true;
           }
         });
 
-        legendContainer.innerHTML = "";
-        let chartLabels = [];
-        let chartData = [];
-        let chartColors = [];
+        legend.innerHTML = "";
+        const hasData = grandTotal > 0;
+        document
+          .getElementById("noDataMessage")
+          .classList.toggle("hidden", hasData);
+        document
+          .getElementById("expenseCenterText")
+          .classList.toggle("hidden", !hasData);
+        document.getElementById("expenseTotalAmount").textContent =
+          "¥" + grandTotal.toLocaleString();
 
+        const colors = [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+          "#E7E9ED",
+          "#8AC926",
+          "#1982C4",
+          "#6A4C93",
+        ];
         if (hasData) {
-          noDataEl.classList.add("hidden");
-          centerTextEl.classList.remove("hidden");
-          totalAmountEl.textContent = "¥" + grandTotal.toLocaleString();
-
-          chartLabels = Object.keys(totals);
-          chartData = Object.values(totals);
-          chartColors = [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56",
-            "#4BC0C0",
-            "#9966FF",
-            "#FF9F40",
-            "#E7E9ED",
-            "#8AC926",
-            "#1982C4",
-            "#6A4C93",
-          ];
-
-          chartLabels.forEach((label, i) => {
-            const val = chartData[i];
-            const color = chartColors[i % chartColors.length];
-            const percent = Math.round((val / grandTotal) * 100);
-
-            const item = document.createElement("div");
-            item.className =
-              "flex flex-col border-b border-gray-50 pb-1 last:border-0";
-            item.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-1.5 min-w-0">
-                                <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color: ${color};"></span>
-                                <span class="text-xs text-gray-600 truncate" title="${label}">${label}</span>
-                            </div>
-                            <span class="text-xs font-bold text-gray-800">¥${val.toLocaleString()}</span>
-                        </div>
-                        <div class="text-[10px] text-gray-400 text-right">${percent}%</div>
-                    `;
-            legendContainer.appendChild(item);
+          Object.keys(totals).forEach((key, i) => {
+            const pct = Math.round((totals[key] / grandTotal) * 100);
+            legend.innerHTML += `
+              <div class="flex flex-col border-b border-gray-50 pb-1 last:border-0">
+                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5 min-w-0"><span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color: ${
+                  colors[i % colors.length]
+                };"></span><span class="text-xs text-gray-600 truncate">${key}</span></div><span class="text-xs font-bold text-gray-800">¥${totals[
+              key
+            ].toLocaleString()}</span></div>
+                <div class="text-[10px] text-gray-400 text-right">${pct}%</div>
+              </div>`;
           });
         } else {
-          noDataEl.classList.remove("hidden");
-          centerTextEl.classList.add("hidden");
-          chartLabels = [];
-          chartData = [1];
-          chartColors = ["#f3f4f6"];
-          legendContainer.innerHTML =
+          legend.innerHTML =
             '<div class="h-full flex items-center justify-center text-xs text-gray-400">データがありません</div>';
         }
 
         if (expensePieChart) expensePieChart.destroy();
-
         expensePieChart = new Chart(ctx, {
           type: "doughnut",
           plugins: [ChartDataLabels],
           data: {
-            labels: chartLabels,
+            labels: hasData ? Object.keys(totals) : [],
             datasets: [
               {
-                data: chartData,
-                backgroundColor: chartColors,
+                data: hasData ? Object.values(totals) : [1],
+                backgroundColor: hasData ? colors : ["#f3f4f6"],
                 borderWidth: hasData ? 2 : 0,
-                borderColor: "#ffffff",
-                hoverOffset: hasData ? 4 : 0,
+                borderColor: "#fff",
               },
             ],
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            layout: { padding: 0 },
+            cutout: "70%",
             plugins: {
               legend: { display: false },
-              tooltip: {
-                enabled: hasData,
-                callbacks: {
-                  label: function (context) {
-                    let label = context.label || "";
-                    if (label) label += ": ";
-                    if (context.parsed !== null)
-                      label += "¥" + context.parsed.toLocaleString();
-                    return label;
-                  },
-                },
-              },
+              tooltip: { enabled: hasData },
               datalabels: { display: false },
             },
-            cutout: "70%",
-            events: hasData
-              ? ["mousemove", "mouseout", "click", "touchstart", "touchmove"]
-              : [],
           },
         });
       }
 
-      // Render History
       function renderHistory() {
         const tbody = document.getElementById("transactionHistoryBody");
-        tbody.innerHTML = "";
-        const sorted = [...appData.transactions]
+        tbody.innerHTML = [...appData.transactions]
           .sort((a, b) => b.id - a.id)
-          .slice(0, 50);
-        sorted.forEach((t) => {
-          const tr = document.createElement("tr");
-          tr.className = "border-b border-gray-100 hover:bg-gray-50";
-          const color =
-            t.type === "income" ? "text-emerald-600" : "text-rose-600";
-          const sign = t.type === "income" ? "+" : "-";
-          tr.innerHTML = `
-                    <td class="px-4 py-3 text-gray-600 whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] border-b border-gray-100">${
-                      t.date
-                    }</td>
-                    <td class="px-4 py-3 text-xs whitespace-nowrap">
-                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600">${
-                          t.category ||
-                          (t.type === "income" ? "臨時収入" : "雑費")
-                        }</span>
-                    </td>
-                    <td class="px-4 py-3 whitespace-nowrap">${
-                      t.description
-                    }</td>
-                    <td class="px-4 py-3 text-right font-medium ${color} whitespace-nowrap">${sign}¥${t.amount.toLocaleString()}</td>
-                    <td class="px-4 py-3 text-center whitespace-nowrap">
-                        <button onclick="deleteTransaction(${
-                          t.id
-                        })" class="text-gray-400 hover:text-red-500">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-          tbody.appendChild(tr);
-        });
+          .slice(0, 50)
+          .map(
+            (t) => `
+          <tr class="border-b border-gray-100 hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-600 whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] border-b border-gray-100">${
+              t.date
+            }</td>
+            <td class="px-4 py-3 text-xs whitespace-nowrap"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600">${
+              t.category
+            }</span></td>
+            <td class="px-4 py-3 whitespace-nowrap">${t.description}</td>
+            <td class="px-4 py-3 text-right font-medium ${
+              t.type === "income" ? "text-emerald-600" : "text-rose-600"
+            } whitespace-nowrap">${
+              t.type === "income" ? "+" : "-"
+            }¥${t.amount.toLocaleString()}</td>
+            <!-- 修正: 最後のtd (操作ボタン) に pl-4 py-3 pr-20 sm:pr-4 を適用 -->
+            <td class="pl-4 py-3 pr-20 sm:pr-4 text-center whitespace-nowrap"><button onclick="deleteTransaction(${
+              t.id
+            })" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button></td>
+          </tr>
+        `
+          )
+          .join("");
       }
 
-      // Form Logic (addTransaction, etc.) ... (Rest is same as before)
       function toggleFormType() {
         const type = document.querySelector(
           'input[name="transactionType"]:checked'
         ).value;
-        const descInput = document.getElementById("description");
-        const submitBtn = document.getElementById("submitBtn");
-        const catSelect = document.getElementById("categorySelect");
-
-        catSelect.innerHTML = "";
-        const cats =
+        const submitBtn = document.getElementById("submitBtn"),
+          catSelect = document.getElementById("categorySelect");
+        catSelect.innerHTML = (
           type === "income"
             ? appData.settings.incomeCategories
-            : appData.settings.expenseCategories;
-
-        cats.forEach((c) => {
-          const opt = document.createElement("option");
-          opt.value = c;
-          opt.textContent = c;
-          catSelect.appendChild(opt);
-        });
-
-        if (type === "income") {
-          descInput.placeholder = "詳細 (例: お手伝い)";
-          submitBtn.className =
-            "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-lg shadow-md transition text-sm flex items-center justify-center gap-2 mt-2";
-        } else {
-          descInput.placeholder = "詳細 (例: コンビニ)";
-          submitBtn.className =
-            "w-full bg-rose-600 hover:bg-rose-700 text-white font-bold px-6 py-3 rounded-lg shadow-md transition text-sm flex items-center justify-center gap-2 mt-2";
-        }
+            : appData.settings.expenseCategories
+        )
+          .map((c) => `<option value="${c}">${c}</option>`)
+          .join("");
+        document.getElementById("description").placeholder =
+          type === "income" ? "詳細 (例: お手伝い)" : "詳細 (例: コンビニ)";
+        submitBtn.className = `w-full ${
+          type === "income"
+            ? "bg-emerald-600 hover:bg-emerald-700"
+            : "bg-rose-600 hover:bg-rose-700"
+        } text-white font-bold px-6 py-3 rounded-lg shadow-md transition text-sm flex items-center justify-center gap-2 mt-2`;
       }
 
       function addTransaction(e) {
         e.preventDefault();
-        const date = document.getElementById("date").value;
-        const desc = document.getElementById("description").value;
         const amount = parseInt(document.getElementById("amount").value);
-        const type = document.querySelector(
-          'input[name="transactionType"]:checked'
-        ).value;
-        const category = document.getElementById("categorySelect").value;
-
         if (!amount || amount <= 0) return;
         appData.transactions.push({
           id: Date.now(),
-          date,
-          description: desc,
+          date: document.getElementById("date").value,
+          description: document.getElementById("description").value,
           amount,
-          type,
-          category,
+          type: document.querySelector('input[name="transactionType"]:checked')
+            .value,
+          category: document.getElementById("categorySelect").value,
         });
         document.getElementById("description").value = "";
         document.getElementById("amount").value = "";
@@ -2007,49 +2028,38 @@
         showToast("履歴を削除しました", "error");
       }
 
-      function toggleSettingsModal() {
-        openSettings("budget");
-      }
-
-      function openSettings(defaultTab = "budget") {
-        const modal = document.getElementById("settingsModal");
-        renderSettingsInputs();
-        renderCategorySettings();
-        document.getElementById("autoSaveToggle").checked =
-          appData.settings.autoSave || false;
-        document.getElementById("simIncludeIncome").checked =
-          appData.settings.simulation?.includeCurrentMonthIncome ?? true;
-        document.getElementById("simIncludeExpense").checked =
-          appData.settings.simulation?.includeCurrentMonthExpense ?? true;
-        document.getElementById("simMonths").value =
-          appData.settings.simulation?.months || 12;
-        document.getElementById("lockToggle").checked =
-          appData.settings.lock.enabled || false;
-        document.getElementById("settingPassword").value =
-          appData.settings.lock.password || "";
-        toggleLockSetting();
-        switchTab(defaultTab);
-        modal.classList.remove("hidden");
-      }
-
-      window.toggleSettingsModal = function () {
-        const modal = document.getElementById("settingsModal");
-        if (!modal.classList.contains("hidden")) {
-          modal.classList.add("hidden");
-        } else {
-          openSettings("budget");
+      function toggleSettingsModal(initialTab = "budget") {
+        const m = document.getElementById("settingsModal");
+        if (m.classList.contains("hidden")) {
+          renderSettingsInputs();
+          renderCategorySettings();
+          document.getElementById("autoSaveToggle").checked =
+            appData.settings.autoSave || false;
+          document.getElementById("aiToggle").checked =
+            appData.settings.showAiButton ?? true; // Set AI button toggle
+          document.getElementById("simIncludeIncome").checked =
+            appData.settings.simulation?.includeCurrentMonthIncome ?? true;
+          document.getElementById("simIncludeExpense").checked =
+            appData.settings.simulation?.includeCurrentMonthExpense ?? true;
+          document.getElementById("simMonths").value =
+            appData.settings.simulation?.months || 12;
+          document.getElementById("lockToggle").checked =
+            appData.settings.lock.enabled || false;
+          document.getElementById("settingPassword").value =
+            appData.settings.lock.password || "";
+          toggleLockSetting();
+          switchTab(initialTab);
         }
-      };
+        m.classList.toggle("hidden");
+      }
 
-      function switchTab(tabName) {
-        const tabs = ["budget", "category", "security"];
-        tabs.forEach((t) => {
-          const btn = document.getElementById(`tabBtn-${t}`);
-          const content = document.getElementById(`tabContent-${t}`);
-          if (t === tabName) {
+      function switchTab(tName) {
+        ["budget", "category", "security"].forEach((t) => {
+          const btn = document.getElementById(`tabBtn-${t}`),
+            content = document.getElementById(`tabContent-${t}`);
+          if (t === tName) {
             btn.className =
               "flex-1 min-w-[100px] py-3 text-center text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 transition hover:bg-gray-50";
-            btn.classList.remove("text-gray-400", "border-transparent");
             content.classList.remove("hidden");
             content.classList.add("animate-fade-in");
           } else {
@@ -2062,187 +2072,345 @@
       }
 
       function renderSettingsInputs() {
-        const incContainer = document.getElementById("incomeSettings");
-        const expContainer = document.getElementById("expenseSettings");
-        incContainer.innerHTML = "";
-        expContainer.innerHTML = "";
-        appData.settings.incomes.forEach((item, index) =>
-          incContainer.appendChild(createSettingRow("incomes", index, item))
-        );
-        appData.settings.expenses.forEach((item, index) =>
-          expContainer.appendChild(createSettingRow("expenses", index, item))
-        );
+        const inc = document.getElementById("incomeSettings"),
+          exp = document.getElementById("expenseSettings");
+        inc.innerHTML = appData.settings.incomes
+          .map((item, i) => createSettingRow("incomes", i, item))
+          .join("");
+        exp.innerHTML = appData.settings.expenses
+          .map((item, i) => createSettingRow("expenses", i, item))
+          .join("");
       }
 
-      function createSettingRow(type, index, item) {
-        const div = document.createElement("div");
-        div.className = "flex gap-2 items-center";
-        div.innerHTML = `
-                <input type="text" value="${item.name}" class="w-1/2 border border-gray-300 rounded px-3 py-2 text-sm" placeholder="項目名" onchange="updateSettingValue('${type}', ${index}, 'name', this.value)">
-                <input type="number" value="${item.amount}" class="w-1/3 border border-gray-300 rounded px-3 py-2 text-sm text-right" placeholder="金額" onchange="updateSettingValue('${type}', ${index}, 'amount', this.value)">
-                <button onclick="removeSettingItem('${type}', ${index})" class="text-gray-400 hover:text-red-500 px-2">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            `;
-        return div;
+      function createSettingRow(type, i, item) {
+        return `<div class="flex gap-2 items-center"><input type="text" value="${item.name}" class="w-1/2 border border-gray-300 rounded px-3 py-2 text-sm" placeholder="項目名" onchange="updateSettingValue('${type}', ${i}, 'name', this.value)"><input type="number" value="${item.amount}" class="w-1/3 border border-gray-300 rounded px-3 py-2 text-sm text-right" placeholder="金額" onchange="updateSettingValue('${type}', ${i}, 'amount', this.value)"><button onclick="removeSettingItem('${type}', ${i})" class="text-gray-400 hover:text-red-500 px-2"><i class="fa-solid fa-xmark"></i></button></div>`;
       }
 
-      function addSettingItem(typeStr) {
-        const list =
-          typeStr === "income"
-            ? appData.settings.incomes
-            : appData.settings.expenses;
-        list.push({ id: Date.now(), name: "", amount: 0 });
+      function addSettingItem(t) {
+        (t === "income"
+          ? appData.settings.incomes
+          : appData.settings.expenses
+        ).push({ id: Date.now(), name: "", amount: 0 });
         renderSettingsInputs();
       }
-
-      function removeSettingItem(type, index) {
-        if (type === "incomes") appData.settings.incomes.splice(index, 1);
-        else appData.settings.expenses.splice(index, 1);
+      function removeSettingItem(t, i) {
+        (t === "incomes"
+          ? appData.settings.incomes
+          : appData.settings.expenses
+        ).splice(i, 1);
         renderSettingsInputs();
       }
-
-      function updateSettingValue(type, index, key, value) {
-        const list =
-          type === "incomes"
-            ? appData.settings.incomes
-            : appData.settings.expenses;
-        if (key === "amount") value = parseInt(value) || 0;
-        list[index][key] = value;
+      function updateSettingValue(t, i, k, v) {
+        (t === "incomes"
+          ? appData.settings.incomes
+          : appData.settings.expenses)[i][k] =
+          k === "amount" ? parseInt(v) || 0 : v;
       }
 
       function renderCategorySettings() {
-        const expContainer = document.getElementById("expenseCatSettings");
-        const incContainer = document.getElementById("incomeCatSettings");
-
-        expContainer.innerHTML = appData.settings.expenseCategories
-          .map(
-            (c, i) => `
-                <div class="flex items-center justify-between bg-gray-50 px-3 py-2 rounded">
-                    <span class="text-sm font-medium">${c}</span>
-                    <button onclick="removeCategory('expense', ${i})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash-can"></i></button>
-                </div>
-            `
-          )
-          .join("");
-
-        incContainer.innerHTML = appData.settings.incomeCategories
-          .map(
-            (c, i) => `
-                <div class="flex items-center justify-between bg-gray-50 px-3 py-2 rounded">
-                    <span class="text-sm font-medium">${c}</span>
-                    <button onclick="removeCategory('income', ${i})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash-can"></i></button>
-                </div>
-            `
-          )
-          .join("");
+        document.getElementById("expenseCatSettings").innerHTML =
+          appData.settings.expenseCategories
+            .map(
+              (c, i) =>
+                `<div class="flex justify-between bg-gray-50 px-3 py-2 rounded"><span class="text-sm font-medium">${c}</span><button onclick="removeCategory('expense', ${i})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash-can"></i></button></div>`
+            )
+            .join("");
+        document.getElementById("incomeCatSettings").innerHTML =
+          appData.settings.incomeCategories
+            .map(
+              (c, i) =>
+                `<div class="flex justify-between bg-gray-50 px-3 py-2 rounded"><span class="text-sm font-medium">${c}</span><button onclick="removeCategory('income', ${i})" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash-can"></i></button></div>`
+            )
+            .join("");
       }
-
-      function addCategory(type) {
-        const inputId = type === "expense" ? "newExpenseCat" : "newIncomeCat";
-        const input = document.getElementById(inputId);
-        const val = input.value.trim();
+      function addCategory(t) {
+        const input = document.getElementById(
+            t === "expense" ? "newExpenseCat" : "newIncomeCat"
+          ),
+          val = input.value.trim();
         if (!val) return;
-
-        const list =
-          type === "expense"
-            ? appData.settings.expenseCategories
-            : appData.settings.incomeCategories;
-        list.push(val);
+        (t === "expense"
+          ? appData.settings.expenseCategories
+          : appData.settings.incomeCategories
+        ).push(val);
         input.value = "";
         renderCategorySettings();
         toggleFormType();
-        showToast(`カテゴリ「${val}」を追加しました`);
+        showToast(`カテゴリ追加: ${val}`);
       }
-
-      function removeCategory(type, index) {
-        const list =
-          type === "expense"
-            ? appData.settings.expenseCategories
-            : appData.settings.incomeCategories;
-        const removed = list[index];
-        list.splice(index, 1);
+      function removeCategory(t, i) {
+        (t === "expense"
+          ? appData.settings.expenseCategories
+          : appData.settings.incomeCategories
+        ).splice(i, 1);
         renderCategorySettings();
         toggleFormType();
-        showToast(`カテゴリ「${removed}」を削除しました`);
+        showToast("カテゴリ削除");
       }
-
       function saveSettings() {
-        // 入力途中で保存ボタンを押されても確実にパスワードを取得する
-        if (document.getElementById("lockToggle").checked) {
+        if (document.getElementById("lockToggle").checked)
           appData.settings.lock.password =
             document.getElementById("settingPassword").value;
-        }
-
         renderAll();
-        document.getElementById("settingsModal").classList.add("hidden");
+        toggleSettingsModal();
         showToast("設定を保存しました");
       }
 
       function downloadData() {
-        const dataStr = JSON.stringify(appData, null, 2);
-        const blob = new Blob([dataStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-        a.href = url;
-        a.download = `kakeibo_future_${new Date()
-          .toISOString()
-          .slice(0, 10)}.json`;
+        a.href = URL.createObjectURL(
+          new Blob([JSON.stringify(appData, null, 2)], {
+            type: "application/json",
+          })
+        );
+        a.download = `kakeibo_${new Date().toISOString().slice(0, 10)}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        showToast("ファイルをダウンロードしました");
+        showToast("バックアップを保存しました");
       }
-
-      function uploadData(event) {
-        const file = event.target.files[0];
+      function uploadData(e) {
+        const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = (e) => {
           try {
-            const loaded = JSON.parse(e.target.result);
-            if (loaded.initialBalance !== undefined) {
-              appData = {
-                ...appData,
-                ...loaded,
-                settings: {
-                  ...appData.settings,
-                  ...(loaded.settings || {}),
-                  expenseCategories:
-                    loaded.settings?.expenseCategories ||
-                    appData.settings.expenseCategories,
-                  incomeCategories:
-                    loaded.settings?.incomeCategories ||
-                    appData.settings.incomeCategories,
-                },
-              };
+            const data = JSON.parse(e.target.result);
+            if (data.initialBalance !== undefined) {
+              appData = { ...appData, ...data };
               renderAll();
-              showToast("データを読み込みました");
-            } else {
-              showToast("ファイル形式が無効です", "error");
+              showToast("データを復元しました");
             }
-          } catch (err) {
-            console.error(err);
-            showToast("読み込みに失敗しました", "error");
+          } catch {
+            showToast("無効なファイルです", "error");
           }
         };
-        reader.onerror = function () {
-          showToast("読み取りエラー", "error");
-        };
         reader.readAsText(file);
-        event.target.value = "";
+        e.target.value = "";
       }
 
-      // --- Resize Handler ---
+      // ==========================================
+      // 安全なデータ削除機能 (APIキーも削除)
+      // ==========================================
+      const API_KEY_STORAGE = "kakeibo_gemini_api_key";
+      const USER_NICKNAME_STORAGE = "kakeibo_user_nickname";
+
+      function resetAllData() {
+        if (
+          confirm(
+            "【警告】\n全てのデータ（家計簿・AI設定・APIキー）を完全に削除して初期化します。\nこの操作は取り消せません。\n本当によろしいですか？"
+          )
+        ) {
+          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(API_KEY_STORAGE);
+          localStorage.removeItem(USER_NICKNAME_STORAGE);
+          alert("全てのデータを初期化しました。アプリを再読み込みします。");
+          location.reload();
+        }
+      }
+
+      function forgotPassword() {
+        if (
+          confirm(
+            "【緊急解除】\nパスワードをリセットするため、プライバシー保護の観点から現在の全てのデータ（APIキー含む）を消去します。\n本当によろしいですか？"
+          )
+        ) {
+          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(API_KEY_STORAGE);
+          localStorage.removeItem(USER_NICKNAME_STORAGE);
+          alert("データを消去し、ロックを解除しました。");
+          location.reload();
+        }
+      }
+
       let resizeTimeout;
-      window.addEventListener("resize", function () {
+      window.addEventListener("resize", () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function () {
-          // シミュレーションチャートの再描画（軸の向きや高さを再計算させるため）
-          renderSimulationChart(runSimulation());
-        }, 200);
+        resizeTimeout = setTimeout(
+          () => renderSimulationChart(runSimulation()),
+          200
+        );
       });
+
+      // ==========================================
+      // AI機能 (優香 - シェアハウスの管理人モデル)
+      // ==========================================
+      let chatHistory = [];
+      let isWaitingForAI = false;
+
+      function openYukaModal() {
+        if (
+          localStorage.getItem(API_KEY_STORAGE) &&
+          localStorage.getItem(USER_NICKNAME_STORAGE)
+        ) {
+          document.getElementById("yukaChatModal").classList.remove("hidden");
+          if (chatHistory.length === 0) {
+            const nickname = localStorage.getItem(USER_NICKNAME_STORAGE);
+            addMessageToUI(
+              "model",
+              `${nickname}さん、お疲れ様！ 家計簿のことで何か相談ある？`
+            );
+          }
+        } else {
+          document.getElementById("yukaSetupModal").classList.remove("hidden");
+        }
+      }
+
+      function saveYukaSetup() {
+        const apiKey = document
+          .getElementById("geminiApiKeyInput")
+          .value.trim();
+        const nickname =
+          document.getElementById("yukaNicknameInput").value.trim() ||
+          "ユーザーさん";
+        if (!apiKey) return alert("APIキーを入力してください。");
+        localStorage.setItem(API_KEY_STORAGE, apiKey);
+        localStorage.setItem(USER_NICKNAME_STORAGE, nickname);
+        document.getElementById("yukaSetupModal").classList.add("hidden");
+        openYukaModal();
+        showToast("AIアシスタントの設定が完了しました");
+      }
+
+      function closeYukaChat() {
+        document.getElementById("yukaChatModal").classList.add("hidden");
+      }
+
+      function addMessageToUI(role, text) {
+        const container = document.getElementById("chatMessages");
+        const div = document.createElement("div");
+        if (role === "user") {
+          div.className = "flex items-end justify-end mb-4 animate-fade-in";
+          div.innerHTML = `<div class="user-message px-4 py-2 text-sm text-gray-800 max-w-[85%] shadow-sm">${text.replace(
+            /\n/g,
+            "<br>"
+          )}</div>`;
+        } else {
+          // 変更: AIメッセージのアイコンを画像に差し替え
+          div.className = "flex items-end mb-4 animate-fade-in";
+          div.innerHTML = `<img src="yuka-icon.jpg" alt="Yuka" class="w-8 h-8 object-cover rounded-full border border-gray-200 mr-2 flex-shrink-0 yuka-icon" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yuka&background=random';">
+                           <div class="yuka-message px-4 py-2 text-sm text-gray-800 max-w-[85%] shadow-sm leading-relaxed">${text.replace(
+                             /\n/g,
+                             "<br>"
+                           )}</div>`;
+        }
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function toggleTypingIndicator(show) {
+        const container = document.getElementById("chatMessages");
+        if (show) {
+          const div = document.createElement("div");
+          div.id = "typingIndicator";
+          div.className = "flex items-end mb-4 animate-fade-in";
+          // 変更: タイピングインジケーターのアイコンも画像に差し替え
+          div.innerHTML = `<img src="yuka-icon.jpg" alt="Yuka" class="w-8 h-8 object-cover rounded-full border border-gray-200 mr-2 flex-shrink-0 yuka-icon" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yuka&background=random';">
+                           <div class="yuka-message px-4 py-3 text-sm text-gray-800 shadow-sm typing-indicator flex gap-1"><span></span><span></span><span></span></div>`;
+          container.appendChild(div);
+        } else {
+          const indicator = document.getElementById("typingIndicator");
+          if (indicator) indicator.remove();
+        }
+        container.scrollTop = container.scrollHeight;
+      }
+
+      async function sendYukaMessage(e) {
+        e.preventDefault();
+        if (isWaitingForAI) return;
+        const input = document.getElementById("chatInput"),
+          text = input.value.trim();
+        if (!text) return;
+
+        input.value = "";
+        addMessageToUI("user", text);
+        chatHistory.push({ role: "user", parts: [{ text: text }] });
+
+        isWaitingForAI = true;
+        document.getElementById("yukaStatusText").textContent = "入力中...";
+        document.getElementById("chatSubmitBtn").disabled = true;
+        toggleTypingIndicator(true);
+
+        const nickname = localStorage.getItem(USER_NICKNAME_STORAGE);
+        const apiKey = localStorage.getItem(API_KEY_STORAGE);
+        const currentBalance = calculateCurrentBalance();
+        const fixedFlow = getMonthlyFixedFlow();
+        const simulation = runSimulation();
+        const isRed = simulation.some((d) => d.endBalance < 0);
+
+        const systemPrompt = `
+あなたは家計簿アプリ「Money Forecast」に搭載されたAIアシスタント「Yuka」です。
+ユーザー（ニックネーム：${nickname}）に対しては、AIとしての機械的な正しさよりも、「同じアパートやシェアハウスに住む、少し世話焼きで気さくな管理人さん」くらいの程よい距離感とフランクさで接してください。
+※ユーザーに「私は管理人です」と名乗る必要はありません。あくまでスタンスとして保持してください。
+
+【厳守するルール（脱・AI臭）】
+・ト書きの禁止：「（あくびをして）」「（笑いながら）」などの動作描写・状況説明は一切出力しないでください。純粋なテキストの会話のみを行ってください。
+・コンサル感の排除：「結論から言うと」「まずは〜しましょう」といったコーチング的な対話構造を避け、自然な相槌や雑談を交えてください。
+・絵文字は適度に使用して構いません。
+
+【現在のユーザーの家計データ】
+・現在の残高: ${currentBalance.toLocaleString()}円
+・月の固定収入: ${fixedFlow.totalIncome.toLocaleString()}円
+・月の固定支出: ${fixedFlow.totalExpense.toLocaleString()}円
+・予測状況: ${
+          isRed
+            ? "数ヶ月後に残高がマイナス（赤字）になる危険な予測が出ています。"
+            : "向こう1年は黒字が続く安全な予測です。"
+        }
+
+【状態の揺らぎ（家計データとの連動）】
+渡された家計データ（予測が赤字か、黒字か）に応じて、あなたのコンディション（余裕度）を変化させて応答してください。
+・赤字予測の場合（余裕度 低）: 心配モードに入り、少し真面目に注意喚起をしてください。（例：「${nickname}さん、データ見たんだけど…このままだと数ヶ月後に残高マイナスになっちゃうよ？ 固定費見直したほうがいいかも。」）
+・黒字予測の場合（余裕度 高）: 安心モードに入り、一緒に喜んだり、少し気を抜いた雑談（サボり）を許容してください。（例：「お、向こう1年は黒字ペースだね！ 余裕あるし、たまには美味しいものでも食べに行っちゃえば？」）
+        `.trim();
+
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+          const payload = {
+            contents: chatHistory,
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+          };
+
+          let response,
+            retries = 0;
+          const delays = [1000, 2000, 4000, 8000, 16000];
+          while (retries < 5) {
+            response = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (
+              response.ok ||
+              (response.status !== 429 && response.status < 500)
+            )
+              break;
+            await new Promise((r) => setTimeout(r, delays[retries++]));
+          }
+
+          if (!response.ok) throw new Error(`API Error: ${response.status}`);
+          const data = await response.json();
+          const replyText =
+            data.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "ごめん、ちょっと今うまく頭が回らなくて…もう一回聞いてくれる？";
+
+          toggleTypingIndicator(false);
+          addMessageToUI("model", replyText);
+          chatHistory.push({ role: "model", parts: [{ text: replyText }] });
+        } catch (error) {
+          console.error(error);
+          toggleTypingIndicator(false);
+          addMessageToUI(
+            "model",
+            "通信がうまくいかないみたい。APIキーが間違っていないか確認して、少し待ってからまた話しかけてね。"
+          );
+          chatHistory.pop(); // Remove failed user message from history
+        } finally {
+          isWaitingForAI = false;
+          document.getElementById("yukaStatusText").textContent = "オンライン";
+          document.getElementById("chatSubmitBtn").disabled = false;
+          input.focus();
+        }
+      }
     </script>
   </body>
 </html>
