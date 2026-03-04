@@ -4,18 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Money Forecast - 未来が見える家計簿</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chart.js DataLabels Plugin -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
       rel="stylesheet"
@@ -201,13 +196,11 @@
     </style>
   </head>
   <body class="text-gray-800 h-screen flex flex-col overflow-hidden">
-    <!-- Header -->
     <header class="bg-white shadow-sm z-10 shrink-0">
       <div
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
       >
         <div class="flex items-center gap-3">
-          <!-- App Icon (SVG) -->
           <div class="w-10 h-10 rounded-xl overflow-hidden shadow-md shrink-0">
             <svg
               viewBox="0 0 100 100"
@@ -281,7 +274,6 @@
                 >未来が見える家計簿</span
               >
             </div>
-            <!-- Auto-save Indicator -->
             <p
               id="autoSaveIndicator"
               class="hidden text-[10px] text-emerald-600 font-bold flex items-center gap-1 animate-fade-in"
@@ -291,7 +283,6 @@
           </div>
         </div>
         <div class="flex gap-2">
-          <!-- DEMO BUTTON -->
           <button
             onclick="loadDemoData()"
             class="text-sm bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3 py-2 rounded-lg transition flex items-center gap-2 border border-emerald-200"
@@ -337,12 +328,9 @@
       </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative">
       <div class="max-w-7xl mx-auto space-y-6">
-        <!-- Row 1: Balance & Fixed Budget -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 1. Current Balance -->
           <div
             class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 animate-fade-in flex flex-col justify-between h-full"
           >
@@ -373,7 +361,6 @@
             </div>
           </div>
 
-          <!-- 2. Monthly Fixed Balance -->
           <div
             class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 animate-fade-in relative group flex flex-col justify-between h-full"
             style="animation-delay: 0.1s"
@@ -385,7 +372,6 @@
                   毎月の固定収支
                 </p>
               </div>
-              <!-- 修正: openSettings('budget') を toggleSettingsModal('budget') に変更 -->
               <button
                 onclick="toggleSettingsModal('budget')"
                 class="flex-shrink-0 text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg border border-indigo-100 font-bold transition flex items-center gap-1 shadow-sm whitespace-nowrap"
@@ -428,9 +414,7 @@
           </div>
         </div>
 
-        <!-- Row 2: Input & Breakdown -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <!-- 3. Input Form -->
           <div
             class="bg-blue-50 p-6 rounded-2xl shadow-sm border border-blue-100 animate-fade-in h-full"
             style="animation-delay: 0.2s"
@@ -442,7 +426,6 @@
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span id="formTitle">収支を入力</span>
               </h3>
-              <!-- 修正: openSettings('category') を toggleSettingsModal('category') に変更 -->
               <button
                 onclick="toggleSettingsModal('category')"
                 class="text-xs bg-white hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg border border-blue-200 font-bold transition flex items-center gap-1 shadow-sm whitespace-nowrap"
@@ -563,7 +546,6 @@
             </form>
           </div>
 
-          <!-- 4. Monthly Expense Breakdown -->
           <div
             class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col animate-fade-in h-full"
             style="animation-delay: 0.3s"
@@ -607,7 +589,6 @@
           </div>
         </div>
 
-        <!-- Row 3: Asset Simulation Chart -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div
             class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3"
@@ -628,7 +609,6 @@
           </div>
         </div>
 
-        <!-- Row 4: Future Table -->
         <div
           class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
         >
@@ -672,7 +652,6 @@
                   >
                     月次収支
                   </th>
-                  <!-- 修正: pr-20 (80px) を追加して、スマホ時にAIボタン分の余白を確保 (PC時は sm:pr-4 で戻す) -->
                   <th
                     class="pl-4 py-4 pr-20 sm:pr-4 font-bold text-gray-500 border-b text-right border-l border-gray-200 whitespace-nowrap"
                   >
@@ -692,7 +671,6 @@
           ></div>
         </div>
 
-        <!-- Transaction History -->
         <details
           class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group"
         >
@@ -722,7 +700,6 @@
                       詳細
                     </th>
                     <th class="px-4 py-3 text-right whitespace-nowrap">金額</th>
-                    <!-- 修正: こちらも pr-20 (80px) を追加して余白を確保 -->
                     <th
                       class="pl-4 py-3 pr-20 sm:pr-4 text-center whitespace-nowrap"
                     >
@@ -738,8 +715,6 @@
       </div>
     </main>
 
-    <!-- Floating AI Button (Responsive) -->
-    <!-- 修正: 画像アイコンから元の「アイコン+テキスト」のデザインに戻す -->
     <button
       id="aiFloatingButton"
       onclick="openYukaModal()"
@@ -751,10 +726,8 @@
       <span class="font-bold text-sm ml-2 hidden md:inline">AI相談</span>
     </button>
 
-    <!-- Toast Container -->
     <div id="toast-container"></div>
 
-    <!-- AI Setup Modal -->
     <div
       id="yukaSetupModal"
       class="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center hidden p-4"
@@ -770,7 +743,6 @@
         </button>
         <div class="p-6">
           <div class="text-center mb-6">
-            <!-- 変更: アイコンを画像(yuka-icon.jpg)に差し替え -->
             <div
               class="w-24 h-24 rounded-full mx-auto mb-3 border-4 border-indigo-100 overflow-hidden"
             >
@@ -848,7 +820,6 @@
       </div>
     </div>
 
-    <!-- AI Chat Modal -->
     <div
       id="yukaChatModal"
       class="fixed inset-0 z-50 bg-slate-100 flex flex-col hidden animate-fade-in md:w-[400px] md:h-[600px] md:top-auto md:bottom-24 md:left-auto md:right-10 md:rounded-2xl md:shadow-2xl overflow-hidden"
@@ -857,7 +828,6 @@
         class="bg-white shadow-sm px-4 py-3 flex items-center justify-between z-10 shrink-0"
       >
         <div class="flex items-center">
-          <!-- 変更: チャットヘッダーのアイコンを画像に差し替え -->
           <div class="w-10 h-10 mr-3 relative">
             <img
               src="yuka-icon.jpg"
@@ -907,7 +877,6 @@
       </div>
     </div>
 
-    <!-- Settings Modal -->
     <div
       id="settingsModal"
       class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
@@ -950,7 +919,6 @@
           </button>
         </div>
         <div class="flex-1 overflow-y-auto p-6 relative">
-          <!-- Tab: Budget -->
           <div id="tabContent-budget" class="space-y-8 animate-fade-in">
             <div>
               <h4
@@ -983,7 +951,6 @@
               </button>
             </div>
           </div>
-          <!-- Tab: Category -->
           <div id="tabContent-category" class="hidden space-y-8">
             <div>
               <h4 class="font-bold text-rose-700 mb-3 border-b pb-2">
@@ -1026,7 +993,6 @@
               </div>
             </div>
           </div>
-          <!-- Tab: Security & Data -->
           <div id="tabContent-security" class="hidden space-y-6">
             <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
               <h4
@@ -1067,39 +1033,6 @@
               >
                 <i class="fa-solid fa-sliders"></i> シミュレーション設定
               </h4>
-              <div class="mb-4">
-                <label class="block text-xs font-bold text-yellow-800 mb-1.5"
-                  >開始月の調整</label
-                >
-                <div class="flex flex-col gap-2">
-                  <label
-                    class="flex items-center gap-3 cursor-pointer p-2 hover:bg-yellow-100 rounded transition"
-                  >
-                    <input
-                      type="checkbox"
-                      id="simIncludeIncome"
-                      class="custom-checkbox"
-                      onchange="updateSimulationConfig()"
-                    />
-                    <span class="text-sm font-bold text-gray-700"
-                      >今月分の「固定収入」を計算に含める</span
-                    >
-                  </label>
-                  <label
-                    class="flex items-center gap-3 cursor-pointer p-2 hover:bg-yellow-100 rounded transition"
-                  >
-                    <input
-                      type="checkbox"
-                      id="simIncludeExpense"
-                      class="custom-checkbox"
-                      onchange="updateSimulationConfig()"
-                    />
-                    <span class="text-sm font-bold text-gray-700"
-                      >今月分の「固定支出」を計算に含める</span
-                    >
-                  </label>
-                </div>
-              </div>
               <div class="border-t border-yellow-200 pt-3">
                 <label
                   for="simMonths"
@@ -1233,7 +1166,6 @@
       </div>
     </div>
 
-    <!-- Balance Edit Modal -->
     <div
       id="balanceModal"
       class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4"
@@ -1268,7 +1200,6 @@
       </div>
     </div>
 
-    <!-- Lock Screen -->
     <div
       id="lockScreen"
       class="fixed inset-0 bg-slate-900 z-[100] hidden flex flex-col items-center justify-center text-white p-4"
@@ -1337,8 +1268,6 @@
           showAiButton: true, // Default to true
           lock: { enabled: false, password: "" },
           simulation: {
-            includeCurrentMonthIncome: true,
-            includeCurrentMonthExpense: true,
             months: 12,
           },
           incomes: [{ id: 1, name: "", amount: 0 }],
@@ -1418,8 +1347,6 @@
             showAiButton: true,
             lock: { enabled: false, password: "" },
             simulation: {
-              includeCurrentMonthIncome: true,
-              includeCurrentMonthExpense: true,
               months: 12,
             },
             incomes: [
@@ -1477,8 +1404,6 @@
                 ...(parsed.settings || {}),
                 showAiButton: parsed.settings?.showAiButton ?? true, // Load AI button setting
                 simulation: {
-                  includeCurrentMonthIncome: true,
-                  includeCurrentMonthExpense: true,
                   months: 12,
                   ...(parsed.settings?.simulation || {}),
                 },
@@ -1528,13 +1453,8 @@
       }
 
       function updateSimulationConfig() {
-        appData.settings.simulation = {
-          includeCurrentMonthIncome:
-            document.getElementById("simIncludeIncome").checked,
-          includeCurrentMonthExpense:
-            document.getElementById("simIncludeExpense").checked,
-          months: parseInt(document.getElementById("simMonths").value) || 12,
-        };
+        appData.settings.simulation.months =
+          parseInt(document.getElementById("simMonths").value) || 12;
         renderAll();
       }
 
@@ -1675,12 +1595,7 @@
           const spot = getSpotFlow(year, month);
           let mInc = fixedFlow.totalIncome,
             mExp = fixedFlow.totalExpense;
-          if (i === 0) {
-            if (!appData.settings.simulation.includeCurrentMonthIncome)
-              mInc = 0;
-            if (!appData.settings.simulation.includeCurrentMonthExpense)
-              mExp = 0;
-          }
+
           const tInc = mInc + spot.income,
             tExp = mExp + spot.expense;
           data.push({
@@ -1781,7 +1696,6 @@
                   isDanger ? "row-danger border-red-200" : ""
                 }`;
 
-          // 修正: 最後のtd (予測残高) に pl-4 py-4 pr-20 sm:pr-4 を適用
           tr.innerHTML = `
             <td class="p-4 whitespace-nowrap font-medium sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] border-b border-gray-100">${
               row.year
@@ -1971,7 +1885,6 @@
             } whitespace-nowrap">${
               t.type === "income" ? "+" : "-"
             }¥${t.amount.toLocaleString()}</td>
-            <!-- 修正: 最後のtd (操作ボタン) に pl-4 py-3 pr-20 sm:pr-4 を適用 -->
             <td class="pl-4 py-3 pr-20 sm:pr-4 text-center whitespace-nowrap"><button onclick="deleteTransaction(${
               t.id
             })" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-trash"></i></button></td>
@@ -2037,10 +1950,6 @@
             appData.settings.autoSave || false;
           document.getElementById("aiToggle").checked =
             appData.settings.showAiButton ?? true; // Set AI button toggle
-          document.getElementById("simIncludeIncome").checked =
-            appData.settings.simulation?.includeCurrentMonthIncome ?? true;
-          document.getElementById("simIncludeExpense").checked =
-            appData.settings.simulation?.includeCurrentMonthExpense ?? true;
           document.getElementById("simMonths").value =
             appData.settings.simulation?.months || 12;
           document.getElementById("lockToggle").checked =
@@ -2285,7 +2194,6 @@
             "<br>"
           )}</div>`;
         } else {
-          // 変更: AIメッセージのアイコンを画像に差し替え
           div.className = "flex items-end mb-4 animate-fade-in";
           div.innerHTML = `<img src="yuka-icon.jpg" alt="Yuka" class="w-8 h-8 object-cover rounded-full border border-gray-200 mr-2 flex-shrink-0 yuka-icon" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yuka&background=random';">
                            <div class="yuka-message px-4 py-2 text-sm text-gray-800 max-w-[85%] shadow-sm leading-relaxed">${text.replace(
@@ -2303,7 +2211,6 @@
           const div = document.createElement("div");
           div.id = "typingIndicator";
           div.className = "flex items-end mb-4 animate-fade-in";
-          // 変更: タイピングインジケーターのアイコンも画像に差し替え
           div.innerHTML = `<img src="yuka-icon.jpg" alt="Yuka" class="w-8 h-8 object-cover rounded-full border border-gray-200 mr-2 flex-shrink-0 yuka-icon" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Yuka&background=random';">
                            <div class="yuka-message px-4 py-3 text-sm text-gray-800 shadow-sm typing-indicator flex gap-1"><span></span><span></span><span></span></div>`;
           container.appendChild(div);
